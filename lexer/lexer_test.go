@@ -7,12 +7,12 @@ import (
 )
 
 func TestNextToken(t *testing.T) {
-	input := `cinco = 5
-diez = 10
+	input := `definir cinco = 5
+definir diez = 10
 
-suma = funcion(x, y) { x + y }
+definir suma = funcion(x, y) { x + y }
 
-resultado = suma(cinco, diez)
+definir resultado = suma(cinco, diez)
 
 !-/*5
 5 < 10 > 5
@@ -31,12 +31,18 @@ fin
 		expectedType    token.TokenType
 		expectedLiteral string
 	}{
+		{token.DEFINE, "definir"},
 		{token.IDENT, "cinco"},
 		{token.ASSIGN, "="},
 		{token.INT, "5"},
+		{token.NEW_LINE, "\n"},
+		{token.DEFINE, "definir"},
 		{token.IDENT, "diez"},
 		{token.ASSIGN, "="},
 		{token.INT, "10"},
+		{token.NEW_LINE, "\n"},
+		{token.NEW_LINE, "\n"},
+		{token.DEFINE, "definir"},
 		{token.IDENT, "suma"},
 		{token.ASSIGN, "="},
 		{token.FUNCTION, "funcion"},
@@ -50,6 +56,9 @@ fin
 		{token.PLUS, "+"},
 		{token.IDENT, "y"},
 		{token.RBRACE, "}"},
+		{token.NEW_LINE, "\n"},
+		{token.NEW_LINE, "\n"},
+		{token.DEFINE, "definir"},
 		{token.IDENT, "resultado"},
 		{token.ASSIGN, "="},
 		{token.IDENT, "suma"},
@@ -58,33 +67,46 @@ fin
 		{token.COMMA, ","},
 		{token.IDENT, "diez"},
 		{token.RPAREN, ")"},
+		{token.NEW_LINE, "\n"},
+		{token.NEW_LINE, "\n"},
 		{token.BANG, "!"},
 		{token.MINUS, "-"},
 		{token.SLASH, "/"},
 		{token.STAR, "*"},
 		{token.INT, "5"},
+		{token.NEW_LINE, "\n"},
 		{token.INT, "5"},
 		{token.LT, "<"},
 		{token.INT, "10"},
 		{token.GT, ">"},
 		{token.INT, "5"},
+		{token.NEW_LINE, "\n"},
+		{token.NEW_LINE, "\n"},
 		{token.IF, "si"},
 		{token.INT, "5"},
 		{token.LT, "<"},
 		{token.INT, "10"},
 		{token.THEN, "entonces"},
+		{token.NEW_LINE, "\n"},
 		{token.RETURN, "devolver"},
 		{token.TRUE, "verdadero"},
+		{token.NEW_LINE, "\n"},
 		{token.ELSE, "sino"},
+		{token.NEW_LINE, "\n"},
 		{token.RETURN, "devolver"},
 		{token.FALSE, "falso"},
+		{token.NEW_LINE, "\n"},
 		{token.END, "fin"},
+		{token.NEW_LINE, "\n"},
+		{token.NEW_LINE, "\n"},
 		{token.INT, "10"},
 		{token.EQ, "=="},
 		{token.INT, "10"},
+		{token.NEW_LINE, "\n"},
 		{token.INT, "10"},
 		{token.NOT_EQ, "!="},
 		{token.INT, "9"},
+		{token.NEW_LINE, "\n"},
 		{token.EOF, ""},
 	}
 

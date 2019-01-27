@@ -24,6 +24,7 @@ const (
 	// DELIMITERS
 	COMMA     = ","
 	SEMICOLON = ";"
+	NEW_LINE  = "\n"
 
 	LPAREN = "("
 	RPAREN = ")"
@@ -31,6 +32,7 @@ const (
 	RBRACE = "}"
 
 	// Keywords
+	DEFINE   = "DEFINE"
 	FUNCTION = "FUNCTION"
 	TRUE     = "TRUE"
 	FALSE    = "FALSE"
@@ -49,6 +51,7 @@ type Token struct {
 }
 
 var keywords = map[string]TokenType{
+	"definir":   DEFINE,
 	"funcion":   FUNCTION,
 	"verdadero": TRUE,
 	"falso":     FALSE,

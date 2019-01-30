@@ -180,6 +180,10 @@ si (10 > 1) {
 			"foobar",
 			"identificador no encontrado: foobar",
 		},
+		{
+			`"Hello" - "World"`,
+			"operador desconocido: CADENA_DE_CARACTERES - CADENA_DE_CARACTERES",
+		},
 	}
 
 	for _, tt := range tests {
@@ -264,6 +268,36 @@ definir addTwo = newAdder(2)
 addTwo(2)`
 
 	testIntegerObject(t, testEval(input), 4)
+}
+
+func TestStringLiteral(t *testing.T) {
+	input := `"hello world"`
+
+	evaluated := testEval(input)
+
+	str, ok := evaluated.(*object.String)
+	if !ok {
+		t.Fatalf("object is not String. got=%T (%+v)", evaluated, evaluated)
+	}
+
+	if str.Value != "hello world" {
+		t.Errorf("str.Value not %q. got=%q", "hello world", str.Value)
+	}
+}
+
+func TestStringConcatenation(t *testing.T) {
+	input := `"hello" + " " + "world"`
+
+	evaluated := testEval(input)
+
+	str, ok := evaluated.(*object.String)
+	if !ok {
+		t.Fatalf("object is not String. got=%T (%+v)", evaluated, evaluated)
+	}
+
+	if str.Value != "hello world" {
+		t.Errorf("str.Value not %q. got=%q", "hello world", str.Value)
+	}
 }
 
 func testEval(input string) object.Object {

@@ -1,4 +1,6 @@
-# Jade - Lenguaje de programación
+# El Lenguaje de programación Jade
+
+![Logo Jade](doc/jade-logo.png)
 
 > El jade era la piedra de la creación y facilitaba el camino hacia el más
 allá.

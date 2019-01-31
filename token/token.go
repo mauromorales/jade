@@ -27,10 +27,12 @@ const (
 	SEMICOLON = ";"
 	NEW_LINE  = "\n"
 
-	LPAREN = "("
-	RPAREN = ")"
-	LBRACE = "{"
-	RBRACE = "}"
+	LPAREN   = "("
+	RPAREN   = ")"
+	LBRACE   = "{"
+	RBRACE   = "}"
+	LBRACKET = "["
+	RBRACKET = "]"
 
 	// Keywords
 	DEFINE   = "DEFINE"

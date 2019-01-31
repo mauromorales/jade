@@ -27,6 +27,7 @@ fin
 10 != 9
 "foobar"
 "foo bar"
+[1, 2]
 `
 
 	tests := []struct {
@@ -112,6 +113,12 @@ fin
 		{token.STRING, "foobar"},
 		{token.NEW_LINE, "\n"},
 		{token.STRING, "foo bar"},
+		{token.NEW_LINE, "\n"},
+		{token.LBRACKET, "["},
+		{token.INT, "1"},
+		{token.COMMA, ","},
+		{token.INT, "2"},
+		{token.RBRACKET, "]"},
 		{token.NEW_LINE, "\n"},
 		{token.EOF, ""},
 	}

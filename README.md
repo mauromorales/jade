@@ -2,7 +2,7 @@
 
 > El jade era la piedra de la creación y facilitaba el camino hacia el más
 allá.
-- [Mundo Maya](mundomaya)
+> - [Mundo Maya](mundomaya)
 
 ## ¿Por qué un lenguaje de programación en español?
 

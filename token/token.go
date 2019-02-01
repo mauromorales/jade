@@ -24,6 +24,7 @@ const (
 
 	// DELIMITERS
 	COMMA     = ","
+	COLON     = ":"
 	SEMICOLON = ";"
 	NEW_LINE  = "\n"
 

@@ -95,8 +95,8 @@ func TestIfElseExpressions(t *testing.T) {
 		{"si (1) { 10 }", 10},
 		{"si (1 < 2) { 10 }", 10},
 		{"si (1 > 2) { 10 }", nil},
-		//{"si (1 > 2) { 10 } sino { 20 }", 20},
-		//{"si (1 < 2) { 10 } sino { 20 }", 10},
+		{"si (1 > 2) { 10 } sino { 20 }", 20},
+		{"si (1 < 2) { 10 } sino { 20 }", 10},
 	}
 
 	for _, tt := range tests {
@@ -116,9 +116,9 @@ func TestReturnStatements(t *testing.T) {
 		expected int64
 	}{
 		{"devolver 10", 10},
-		{"devolver 10\n9;", 10},
-		{"devolver 2 * 5\n9;", 10},
-		{"9\n devolver 2 * 5\n 9;", 10},
+		{"devolver 10\n9\n", 10},
+		{"devolver 2 * 5\n9\n", 10},
+		{"9\ndevolver 2 * 5\n 9\n", 10},
 		{`
 si (10 > 1) {
 	si (10 > 1) {
@@ -183,6 +183,10 @@ si (10 > 1) {
 		{
 			`"Hello" - "World"`,
 			"operador desconocido: CADENA_DE_CARACTERES - CADENA_DE_CARACTERES",
+		},
+		{
+			`{"name": "Monkey"}[funcion(x) { x }];`,
+			"no se puede utilizar como índice de diccionario: FUNCTION",
 		},
 	}
 
@@ -424,6 +428,91 @@ func TestArrayIndexExpressions(t *testing.T) {
 		}
 	}
 
+}
+
+func TestHashLiterals(t *testing.T) {
+	input := `definir two = "two"
+	{
+	  "one": 10 - 9,
+	  two: 1 + 1,
+	  "thr" + "ee": 6 / 2,
+	  4: 4,
+	  verdadero: 5,
+	  falso: 6
+	}`
+
+	evaluated := testEval(input)
+	result, ok := evaluated.(*object.Hash)
+	if !ok {
+		t.Fatalf("Eval didn't return Hash. got=%T (%+v)", evaluated, evaluated)
+	}
+
+	expected := map[object.HashKey]int64{
+		(&object.String{Value: "one"}).HashKey():   1,
+		(&object.String{Value: "two"}).HashKey():   2,
+		(&object.String{Value: "three"}).HashKey(): 3,
+		(&object.Integer{Value: 4}).HashKey():      4,
+		TRUE.HashKey():                             5,
+		FALSE.HashKey():                            6,
+	}
+
+	if len(result.Pairs) != len(expected) {
+		t.Fatalf("Hash has wrong num of pairs. got=%d", len(result.Pairs))
+	}
+
+	for expectedKey, expectedValue := range expected {
+		pair, ok := result.Pairs[expectedKey]
+		if !ok {
+			t.Errorf("no pair for given key in Pairs")
+		}
+		testIntegerObject(t, pair.Value, expectedValue)
+	}
+}
+
+func TestHashIndexExpressions(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected interface{}
+	}{
+		{
+			`{"foo": 5}["foo"]`,
+			5,
+		},
+		{
+			`{"foo": 5}["bar"]`,
+			nil,
+		},
+		{
+			`definir key = "foo"; {"foo": 5}[key]`,
+			5,
+		},
+		{
+			`{}["foo"]`,
+			nil,
+		},
+		{
+			`{5: 5}[5]`,
+			5,
+		},
+		{
+			`{verdadero: 5}[verdadero]`,
+			5,
+		},
+		{
+			`{falso: 5}[falso]`,
+			5,
+		},
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		integer, ok := tt.expected.(int)
+		if ok {
+			testIntegerObject(t, evaluated, int64(integer))
+		} else {
+			testNullObject(t, evaluated)
+		}
+	}
 }
 
 func testEval(input string) object.Object {

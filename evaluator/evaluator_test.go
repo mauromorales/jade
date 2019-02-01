@@ -313,7 +313,7 @@ func TestBuiltinFunctions(t *testing.T) {
 		{`largo("four")`, 4},
 		{`largo("hello world")`, 11},
 		{`largo(1)`, "la función `largo` no soporta un argumento de tipo ENTERO"},
-		{`largo("one", "two")`, "número de argumentos inválido. Recibí 2 en lguar de 1"},
+		{`largo("one", "two")`, "número de argumentos inválido. Recibí 2 en lugar de 1"},
 		{`adjuntar([1, 2], 3)`, []int{1, 2, 3}},
 		{`adjuntar([1], 2, 3)`, []int{1, 2, 3}},
 	}

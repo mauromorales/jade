@@ -1,12 +1,16 @@
 package evaluator
 
-import "github.com/mauromorales/jade/object"
+import (
+	"fmt"
+
+	"github.com/mauromorales/jade/object"
+)
 
 var builtins = map[string]*object.Builtin{
 	"largo": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
-				return newError("número de argumentos inválido. Recibí %d en lguar de 1", len(args))
+				return newError("número de argumentos inválido. Recibí %d en lugar de 1", len(args))
 			}
 
 			switch arg := args[0].(type) {
@@ -22,7 +26,7 @@ var builtins = map[string]*object.Builtin{
 	"adjuntar": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 {
-				return newError("número de argumenots inválido. Recibí %d en lguar de 2", len(args))
+				return newError("número de argumenots inválido. Recibí %d en lugar de 2", len(args))
 			}
 
 			switch arg := args[0].(type) {
@@ -31,6 +35,14 @@ var builtins = map[string]*object.Builtin{
 			}
 
 			return nil
+		},
+	},
+	"imprimir": &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			for _, arg := range args {
+				fmt.Println(arg.Inspect())
+			}
+			return NULL
 		},
 	},
 }

@@ -1,9 +1,9 @@
-package repl
+package runner
 
 import (
 	"bufio"
-	"fmt"
 	"io"
+	"os"
 
 	"github.com/mauromorales/jade/evaluator"
 	"github.com/mauromorales/jade/lexer"
@@ -11,14 +11,11 @@ import (
 	"github.com/mauromorales/jade/parser"
 )
 
-const PROMPT = ">> "
-
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 	env := object.NewEnvironment()
 
 	for {
-		fmt.Printf(PROMPT)
 		scanned := scanner.Scan()
 		if !scanned {
 			return
@@ -34,17 +31,26 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		evaluated := evaluator.Eval(program, env)
-		if evaluated != nil {
-			io.WriteString(out, evaluated.Inspect())
-			io.WriteString(out, "\n")
+		evaluator.Eval(program, env)
+		if len(program.Errors) != 0 {
+			printEvaluationErrors(out, program.Errors)
+		}
+
+		if len(p.Errors())+len(program.Errors) != 0 {
+			os.Exit(1)
 		}
 	}
 }
 
 func printParserErrors(out io.Writer, errors []string) {
-	io.WriteString(out, "Nooo, no puede ser! Encontramos un error!\n")
-	io.WriteString(out, " error(es) de parseo:\n")
+	io.WriteString(out, "Error(es) de parseo:\n")
+	for _, msg := range errors {
+		io.WriteString(out, "\t"+msg+"\n")
+	}
+}
+
+func printEvaluationErrors(out io.Writer, errors []string) {
+	io.WriteString(out, "Error(es) de corrida:\n")
 	for _, msg := range errors {
 		io.WriteString(out, "\t"+msg+"\n")
 	}

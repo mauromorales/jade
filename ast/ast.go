@@ -25,6 +25,7 @@ type Expression interface {
 
 type Program struct {
 	Statements []Statement
+	Errors     []string
 }
 
 func (p *Program) TokenLiteral() string {

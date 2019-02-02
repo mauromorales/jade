@@ -2,6 +2,14 @@
 
 ![Logo Jade](doc/jade-logo.png)
 
+## ¿Qué es Jade?
+
+Jade es un lenguaje de programación en español.
+
+```
+imprimir("¡Hola mundo!")
+```
+
 ## ¿De donde viene el nombre Jade?
 
 Programar es el arte de crear. Es un proceso que requiere de concentración para

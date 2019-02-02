@@ -1,5 +1,7 @@
 # El Lenguaje de programación Jade
 
+[![Codeship Status for mauromorales/jade](https://app.codeship.com/projects/0c449790-08ad-0137-9eb3-62ad0be07bf4/status?branch=master)](https://app.codeship.com/projects/326080)
+
 ![Logo Jade](doc/jade-logo.png)
 
 ## ¿Qué es Jade?

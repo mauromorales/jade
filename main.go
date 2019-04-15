@@ -9,9 +9,16 @@ import (
 	"github.com/mauromorales/jade/runner"
 )
 
+const VERSION = "0.0.1"
+
+func printVersion() {
+	fmt.Printf("Version: %s\n", VERSION)
+}
+
 func main() {
 	interactive := flag.Bool("i", false, "Ejecuta la consola interactiva de Jade")
 	ayuda := flag.Bool("a", false, "Muestra el mensaje de ayuda de este ejecutable")
+	version := flag.Bool("version", false, "Muestra laversion del ejecutale")
 
 	flag.Usage = func() {
 		fmt.Printf("Uso de %s:\n", os.Args[0])
@@ -22,6 +29,12 @@ func main() {
 
 	if *ayuda {
 		flag.Usage()
+		os.Exit(0)
+	}
+
+	if *version {
+		fmt.Println("¡Advertencia! Toda version pre 1.0.0 es considerada alpha y por lo tanto inestables, no se garantiza su API")
+		printVersion()
 		os.Exit(0)
 	}
 
